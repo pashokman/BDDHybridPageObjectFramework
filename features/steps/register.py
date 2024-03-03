@@ -1,92 +1,85 @@
-from datetime import datetime
 from behave import *
-from selenium import webdriver
 
-from selenium.webdriver.common.by import By
+from features.pages.AccountCreatedPage import AccountCreatedPage
+from features.pages.HomePage import HomePage
+from features.pages.RegisterPage import RegisterPage
 
 
 @given(u'I naviagte to Register page')
 def step_impl(context):
-    context.driver.find_element(By.XPATH, '//a[@title="My Account"]').click()
-    context.driver.find_element(By.LINK_TEXT, 'Register').click()
+    home_page = HomePage(context.driver)
+    home_page.click_on_my_account()
+    home_page.click_on_register_option()
 
 
 @when(u'I enter details into mandatory fields')
 def step_impl(context):
-    context.driver.find_element(By.NAME, 'firstname').send_keys('John')
-    context.driver.find_element(By.NAME, 'lastname').send_keys('Doe')
-    
-    time_stamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-    address = "test_auto" + time_stamp + "@gmail.com"
-    
-    context.driver.find_element(By.NAME, 'email').send_keys(address)
-    context.driver.find_element(By.NAME, 'telephone').send_keys('1234567890')
-    context.driver.find_element(By.NAME, 'password').send_keys('12345')
-    context.driver.find_element(By.NAME, 'confirm').send_keys('12345')
+    register_page = RegisterPage(context.driver)
+    register_page.enter_mandatory_fields('John', 'Doe', register_page.generate_email(), '1234567890', '12345')
 
 
 @when(u'I select Privacy Policy option')
 def step_impl(context):
-    context.driver.find_element(By.NAME, 'agree').click()
+    register_page = RegisterPage(context.driver)
+    register_page.accept_on_privacy_policy_option()
 
 
 @when(u'I click on Continue button')
 def step_impl(context):
-    context.driver.find_element(By.XPATH, '//input[@value="Continue"]').click()
+    register_page = RegisterPage(context.driver)
+    register_page.click_on_continue_btn()
 
 
 @then(u'Account should get created')
 def step_impl(context):
     expected_message = 'Your Account Has Been Created!'
-    current_message = context.driver.find_element(By.XPATH, '//div[@id="content"]/h1').text
+    account_created_page = AccountCreatedPage(context.driver)
+    current_message = account_created_page.get_account_successfully_created_message()
     
     assert current_message == expected_message, 'Accout created message does not match'
 
 
 @when(u'I select Subscribe Yes option')
 def step_impl(context):
-    context.driver.find_element(By.XPATH, '//input[@name="newsletter"][@value=1]').click()
+    register_page = RegisterPage(context.driver)
+    register_page.select_subscribe_option()
 
 
 @when(u'I enter details into all fields except email field')
 def step_impl(context):
-    context.driver.find_element(By.NAME, 'firstname').send_keys('John')
-    context.driver.find_element(By.NAME, 'lastname').send_keys('Doe')
-    context.driver.find_element(By.NAME, 'telephone').send_keys('1234567890')
-    context.driver.find_element(By.NAME, 'password').send_keys('12345')
-    context.driver.find_element(By.NAME, 'confirm').send_keys('12345')
+    register_page = RegisterPage(context.driver)
+    register_page.enter_mandatory_fields('John', 'Doe', '', '1234567890', '12345')
 
 
 @when(u'I enter existing accounts email into email field')
 def step_impl(context):
     existing_address = 'test_auto@gmail.com'
-    context.driver.find_element(By.NAME, 'email').send_keys(existing_address)
+    register_page = RegisterPage(context.driver)
+    register_page.enter_email(existing_address)
 
 
 @then(u'Proper warning about duplicate account should be displayed')
 def step_impl(context):
     expected_warning = 'Warning: E-Mail Address is already registered!'
-    current_warning = context.driver.find_element(By.XPATH, '//div[@class="alert alert-danger alert-dismissible"]').text
+    register_page = RegisterPage(context.driver)
+    current_warning = register_page.get_warning()
     
     assert expected_warning == current_warning, 'Warning does not match (duplicate account/email)'
 
 
 @when(u'I don\'t enter anything into the fields')
 def step_impl(context):
-    context.driver.find_element(By.NAME, 'firstname').send_keys('')
-    context.driver.find_element(By.NAME, 'lastname').send_keys('')
-    context.driver.find_element(By.NAME, 'email').send_keys('')
-    context.driver.find_element(By.NAME, 'telephone').send_keys('')
-    context.driver.find_element(By.NAME, 'password').send_keys('')
-    context.driver.find_element(By.NAME, 'confirm').send_keys('')
+    register_page = RegisterPage(context.driver)
+    register_page.enter_mandatory_fields('', '', '', '', '')
 
 
 @then(u'Proper warning (Privacy Policy) and messages for every mandatory fields except Password Confirm should be displayed')
 def step_impl(context):
     expected_warning = 'Warning: You must agree to the Privacy Policy!'
-    current_warning = context.driver.find_element(By.XPATH, '//div[@class="alert alert-danger alert-dismissible"]').text
+    register_page = RegisterPage(context.driver)
+    current_warning = register_page.get_warning()
 
-    expected_messages = context.driver.find_elements(By.XPATH, '//div[@class="text-danger"]')
+    expected_messages = register_page.get_error_messages()
     expected_fistname_message = 'First Name must be between 1 and 32 characters!'
     current_fistname_message = expected_messages[0].text
     expected_lastname_message = 'Last Name must be between 1 and 32 characters!'

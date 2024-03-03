@@ -22,6 +22,7 @@ All test scenarios are describe in ```*.feature``` files and all scenatio steps 
     * Search without entering any product
 
 # How to develop BDD Page object Framework:
+## Create scenarious and implement steps
 1. Create package ```features``` in project root folder.
 2. Create package ```steps``` in ```features``` package.
 3. Create 'behave.ini' file in project root folder. Add code into a file:
@@ -55,8 +56,10 @@ def step_impl(context):
 ```
 8. We should create file with same name with extension '.py' in steps package - ```login.py``` and paste code from console into it.
 9. Should implement all steps in steps files and than run tests.
+
+## Create hooks and utilities
 10. Create hooks in ```features``` package in ```environment.py``` file - ```before_scenario, after_scenario```, for delete duplicated code from steps files.
-11. Create ConfigReader.py utility in utilities package.
+11. Create ConfigReader.py utility in utilities package for add oportunity to get some main test parameters.
 ```
 from configparser import ConfigParser
 
@@ -66,10 +69,15 @@ def read_configuration(category, key):
     config.read('configuration/config.ini')
     return config.get(category, key)
 ```
-12. Create ```configurations``` package in root folder and ```config.ini``` file inside of it.
+12. Create ```configurations``` package in root folder and ```config.ini``` file inside of it, for add oportunity to get some main test parameters like browser, url...
 ```
 [basic info]
 browser = firefox
 url = 'https://tutorialsninja.com/demo/'
 ```
 13. Change ```environment.py``` file to work with ```config.ini``` file through the ConfigReader utility.
+
+## Add Page Object Model to the project
+14. Create package ```pages``` in ```features``` package.
+15. Create page object files with elements locators and methods to work with them, import page object files into steps and use POM classes.
+16. 
