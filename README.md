@@ -80,7 +80,7 @@ url = 'https://tutorialsninja.com/demo/'
 ## Add Page Object Model into the project
 14. Create package ```pages``` in ```features``` package.
 15. Create page object files with elements locators and methods to work with them, import page object files into steps and use POM classes.
-16. Delete creation of Page Objects in steps, where I can transfer object through the ```context```.
+16. Delete creation of Page Objects in steps, where I can transfer object through the ```context```.\
 Before
 ```
 @when(u'I enter valid email address and valid password into the fields')
@@ -107,7 +107,7 @@ def step_impl(context):
     context.login_page.click_on_login_btn()
 ```
 
-17. Add return statements that should return the next Page Object in current Page Object.
+17. Add return statements that should return the next Page Object in current Page Object.\
 Before
 ```
 def click_search_btn(self):
@@ -120,7 +120,7 @@ def click_search_btn(self):
     return SearchResultsPage(self.driver)
 ```
 
-18. In steps we should set the method into variable, for transfer object through the ```context``` into next steps.
+18. In steps we should set the method into variable, for transfer object through the ```context``` into next steps.\
 Before
 ```
 @when(u'I click on Search button')
@@ -141,7 +141,7 @@ def step_impl(context):
 
 ## Add DDT aproach in tests if necessary
 ### Data for all scenario
-22. Change feature file by adding Examples data for testing.
+22. Change feature file by adding Examples data for testing.\
 Before
 ```
 Feature: Login Functionality
@@ -171,7 +171,7 @@ Feature: Login Functionality
             |amotoorisamplethree@gmail.com  |secondthree    |
 ```
 
-23. Change step in steps file for using Example data in tests.
+23. Change step in steps file for using Example data in tests.\
 Before
 ```
 @when(u'I enter valid email address and valid password into the fields')
@@ -186,7 +186,7 @@ def step_impl(context, email, password):
 ```
 
 ### Data for a specific step
-22. Change feature file by adding Examples data for testing.
+22. Change feature file by adding Examples data for testing.\
 Before
 ```
 Feature: Register Account Functionality
@@ -214,7 +214,7 @@ Feature: Register Account Functionality
         Then Account should get created
 ```
 
-23. Change step in steps file for using Example data in tests.
+23. Change step in steps file for using Example data in tests.\
 Before
 ```
 @when("I enter below details into mandatory fields")
@@ -230,4 +230,26 @@ def step_impl(context):
         context.register_page.enter_mandatory_fields(row['firstname'], row['lastname'], \
                                                     context.register_page.generate_email(),
                                                     row['telephone'], row['password'])
+```
+
+## Add Allure reporting and screenshoot on failure functionality
+24. To run the command for allure reporting for behave we shoul before install allure module:
+```
+pip install allure-behave
+```
+25. To run the tests and make report should use command (report folder will be automatically created):
+```
+behave -f allure_behave.formatter:AllureFormatter -o Reports/ features
+```
+26. To generate the report from files wich we got from tests run, we should run ```cmd``` from root project folder and run acommand:
+```
+allure serve Reports
+```
+27. For making screenshot on failure, we should add ```after_step``` method into the ```environment.py``` file.
+```
+def after_step(context, step):
+    if step.status == 'failed':
+        allure.attach(context.driver.get_screenshot_as_png(),
+            name = 'failed_screenshot',
+            attachment_type = AttachmentType.PNG)
 ```
