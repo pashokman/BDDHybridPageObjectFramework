@@ -253,3 +253,32 @@ def after_step(context, step):
             name = 'failed_screenshot',
             attachment_type = AttachmentType.PNG)
 ```
+
+## Run framework tests in Jenkins
+28. Run Jenkins through ```cmd``` command - ```java -jar jenkins.war```
+29. Install plugins in Jenkins: ```allure```, ```shiningpanda```.
+30. Create new job - set job name - Freestyle project.
+31. Source Code Management - Git - Repository URL - project GitHub URL.
+32. Source Code Management - Git - Credentials - Jenkins - Global credentials, username and password.
+33. Branches to build - Branch Specifier - ```*/main```.
+34. Build Steps - Custom Python Builder - Home - change USERNAME in the path: ```C:\Users\USERNAME\AppData\Local\Programs\Python\Python311\python.exe```
+35. Build Steps - Custom Python Builder - Nature - Shell.
+36. Build Steps - Custom Python Builder - Command:
+```
+python -m venv venv
+call ./venv/Scripts/activate.bat
+pip install selenium
+pip install behave
+pip install allure-behave
+behave -f allure_behave.formatter:AllureFormatter -o Reports/ features
+```
+37. Post-build Actions - Allure Report - Path - ```Reports```.
+
+
+# Command to run tests:
+    * to run all test - ```behave features```
+    * to run one feature tests - ```behave feature/login.feature```
+    * to run tests with specific tags - ```behave feature --tags=login```
+    * to run tests with allure report - ```behave -f allure_behave.formatter:AllureFormatter -o Reports/ features```
+    to generate the report should run command in ```cmd``` from root project folder - ```allure serve Reports```
+    
