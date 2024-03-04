@@ -137,4 +137,97 @@ def step_impl(context):
 ### Create Base Page class and implement in it most used methods.
 19. Create BasePage class and inherit it in all other classes.
 20. Implement main page methods in BasePage class - get_element, click_on_element, type_into_element, check_display_status_of_element, retrive_element_text...
-21. Optimize child pages classes to work with BasePage methods.
+21. Optimize child pages classes to call BasePage methods.
+
+## Add DDT aproach in tests if necessary
+### Data for all scenario
+22. Change feature file by adding Examples data for testing.
+Before
+```
+Feature: Login Functionality
+
+    @login @only
+    Scenario: Login with valid credentials
+        Given I navigate to Login page
+        When I enter valid email address and valid password into the fields
+        And I click on Login button
+        Then I shoud get logged in
+```
+After
+```
+Feature: Login Functionality
+
+    @login @only
+    Scenario Outline: Login with valid credentials
+        Given I navigate to Login page
+        When I enter valid email address as "<email>" and valid password as "<password>" into the fields
+        And I click on Login button
+        Then I shoud get logged in
+        Examples:
+            |email                          |password       |
+            |test_auto@gmail.com            |12345          |
+            |amotoorisampleone@gmail.com    |secondone      |
+            |amotoorisampletwo@gmail.com    |secondtwo      |
+            |amotoorisamplethree@gmail.com  |secondthree    |
+```
+
+23. Change step in steps file for using Example data in tests.
+Before
+```
+@when(u'I enter valid email address and valid password into the fields')
+def step_impl(context):
+    context.login_page.enter_credentials('test_auto@gmail.com', '12345')
+```
+After
+```
+@when(u'I enter valid email address as "{email}" and valid password as "{password}" into the fields')
+def step_impl(context, email, password):
+    context.login_page.enter_credentials(email, password)
+```
+
+### Data for a specific step
+22. Change feature file by adding Examples data for testing.
+Before
+```
+Feature: Register Account Functionality
+
+    @register
+    Scenario: Register with mandatory fields
+        Given I naviagte to Register page
+        When I enter details into mandatory fields
+        And I select Privacy Policy option
+        And I click on Continue button
+        Then Account should get created
+```
+After
+```
+Feature: Register Account Functionality
+
+    @register
+    Scenario: Register with mandatory fields
+        Given I naviagte to Register page
+        When I enter below details into mandatory fields
+            |firstname  |lastname   |telephone  |password   |
+            |John       |Doe        |1234567890 |12345      |
+        And I select Privacy Policy option
+        And I click on Continue button
+        Then Account should get created
+```
+
+23. Change step in steps file for using Example data in tests.
+Before
+```
+@when("I enter below details into mandatory fields")
+def step_impl(context):
+    context.register_page.enter_mandatory_fields("John", "Doe", context.register_page.generate_email(), \
+                                                "1234567890", "12345")
+```
+After
+```
+@when("I enter below details into mandatory fields")
+def step_impl(context):
+    for row in context.table:
+        context.register_page.enter_mandatory_fields(row['firstname'], row['lastname'], \
+                                                    context.register_page.generate_email(),
+                                                    row['telephone'], row['password'])
+```

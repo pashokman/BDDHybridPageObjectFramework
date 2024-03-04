@@ -12,9 +12,9 @@ def step_impl(context):
     assert expected_title == current_title, f'This is not a Home page: {current_title}'
 
 
-@when(u'I enter valid product into the Search box field')
-def step_impl(context):
-    context.home_page.search('HP')
+@when(u'I enter valid product "{product}" into the Search box field')
+def step_impl(context, product):
+    context.home_page.search(product)
 
 
 @when(u'I click on Search button')
@@ -27,9 +27,9 @@ def step_impl(context):
     assert context.search_results_page.is_displayed_valid_product(), 'Valid product does not displayed'
 
 
-@when(u'I enter invalid product into the Search box field')
-def step_impl(context):
-    context.home_page.search('Honda')
+@when(u'I enter invalid product "{product}" into the Search box field')
+def step_impl(context, product):
+    context.home_page.search(product)
 
 
 @then(u'Proper message should be displayed in Search results')

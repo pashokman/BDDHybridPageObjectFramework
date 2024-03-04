@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from features.pages.AccountCreatedPage import AccountCreatedPage
 from features.pages.BasePage import BasePage
 
@@ -21,13 +19,6 @@ class RegisterPage(BasePage):
     subscripe_yes_option_xpath = '//input[@name="newsletter"][@value=1]'
     warning_xpath = '//div[@class="alert alert-danger alert-dismissible"]'
     error_messages_xpath = '//div[@class="text-danger"]'
-
-
-    @staticmethod
-    def generate_email():
-        time_stamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-        address = "test_auto" + time_stamp + "@gmail.com"
-        return address
     
 
     def enter_firstname(self, firstname):

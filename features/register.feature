@@ -1,9 +1,11 @@
 Feature: Register Account Functionality
 
-    @register
+    @register @one
     Scenario: Register with mandatory fields
         Given I naviagte to Register page
-        When I enter details into mandatory fields
+        When I enter below details into mandatory fields
+            |firstname  |lastname   |telephone  |password   |
+            |John       |Doe        |1234567890 |12345      |
         And I select Privacy Policy option
         And I click on Continue button
         Then Account should get created
@@ -11,7 +13,9 @@ Feature: Register Account Functionality
     @register
     Scenario: Register with all fields
         Given I naviagte to Register page
-        When I enter details into mandatory fields
+        When I enter below details into mandatory fields
+            |firstname  |lastname   |telephone  |password   |
+            |John       |Doe        |1234567890 |12345      |
         And I select Subscribe Yes option
         And I select Privacy Policy option
         And I click on Continue button
@@ -20,8 +24,10 @@ Feature: Register Account Functionality
     @register
     Scenario: Register with duplicate email address
         Given I naviagte to Register page
-        When I enter details into all fields except email field
-        And I enter existing accounts email into email field
+        When I enter below details into all fields except email field
+            |firstname  |lastname   |telephone  |password   |
+            |John       |Doe        |1234567890 |12345      |
+        And I enter existing accounts email "test_auto@gmail.com" into email field
         And I select Privacy Policy option
         And I click on Continue button
         Then Proper warning about duplicate account should be displayed

@@ -1,7 +1,5 @@
 from behave import *
 
-from features.pages.SuccessfulLoginPage import SuccessfulLoginPage
-from features.pages.LoginPage import LoginPage
 from features.pages.HomePage import HomePage
 
 
@@ -12,9 +10,9 @@ def step_impl(context):
     context.login_page = context.home_page.click_on_login_option()
 
 
-@when(u'I enter valid email address and valid password into the fields')
-def step_impl(context):
-    context.login_page.enter_credentials('test_auto@gmail.com', '12345')
+@when(u'I enter valid email address as "{email}" and valid password as "{password}" into the fields')
+def step_impl(context, email, password):
+    context.login_page.enter_credentials(email, password)
 
 
 @when(u'I click on Login button')
@@ -28,9 +26,9 @@ def step_impl(context):
         'Field does not displayed or another error'
 
 
-@when(u'I enter invalid email address and valid password into the fields')
-def step_impl(context):
-    context.login_page.enter_credentials('test_auto1@gmail.com', '12345')
+@when(u'I enter invalid email "{email}" address and valid password "{password}" into the fields')
+def step_impl(context, email, password):
+    context.login_page.enter_credentials(email, password)
 
 
 @then(u'I shoud get a proper warning message')
@@ -42,14 +40,14 @@ def step_impl(context):
         f'Warning (invalid email/password) does not match: {current_warning}'
 
 
-@when(u'I enter valid email address and invalid password into the fields')
-def step_impl(context):
-    context.login_page.enter_credentials('test_auto@gmail.com', '123456')
+@when(u'I enter valid email address "{email}" and invalid password "{password}" into the fields')
+def step_impl(context, email, password):
+    context.login_page.enter_credentials(email, password)
 
 
-@when(u'I enter invalid email address and invalid password into the fields')
-def step_impl(context):
-    context.login_page.enter_credentials('test_auto1@gmail.com', '123456')
+@when(u'I enter invalid email address "{email}" and invalid password "{password}" into the fields')
+def step_impl(context, email, password):
+    context.login_page.enter_credentials(email, password)
 
 
 @when(u'I don\'t enter anything into email and password fields')
