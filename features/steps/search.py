@@ -1,7 +1,6 @@
 from behave import *
 
 from features.pages.HomePage import HomePage
-from features.pages.SearchResultsPage import SearchResultsPage
 
 
 @given(u'I got navigated to Home page')
@@ -20,13 +19,11 @@ def step_impl(context):
 
 @when(u'I click on Search button')
 def step_impl(context):
-    context.home_page.click_search_btn()
+    context.search_results_page = context.home_page.click_search_btn()
 
 
 @then(u'Valid product should be displayed in Search results')
-def step_impl(context):
-    context.search_results_page = SearchResultsPage(context.driver)
-    
+def step_impl(context): 
     assert context.search_results_page.is_displayed_valid_product(), 'Valid product does not displayed'
 
 
@@ -38,7 +35,6 @@ def step_impl(context):
 @then(u'Proper message should be displayed in Search results')
 def step_impl(context):
     expected_message = 'There is no product that matches the search criteria.'
-    context.search_results_page = SearchResultsPage(context.driver)
     current_message = context.search_results_page.get_invalid_product_message()
     
     assert expected_message == current_message, \

@@ -1,20 +1,17 @@
 from behave import *
 
-from features.pages.AccountCreatedPage import AccountCreatedPage
 from features.pages.HomePage import HomePage
-from features.pages.RegisterPage import RegisterPage
 
 
 @given("I naviagte to Register page")
 def step_impl(context):
     context.home_page = HomePage(context.driver)
     context.home_page.click_on_my_account()
-    context.home_page.click_on_register_option()
+    context.register_page = context.home_page.click_on_register_option()
 
 
 @when("I enter details into mandatory fields")
 def step_impl(context):
-    context.register_page = RegisterPage(context.driver)
     context.register_page.enter_mandatory_fields("John", "Doe", context.register_page.generate_email(), \
                                                  "1234567890", "12345")
 
@@ -26,14 +23,13 @@ def step_impl(context):
 
 @when("I click on Continue button")
 def step_impl(context):
-    context.register_page.click_on_continue_btn()
+    context.account_created_page = context.register_page.click_on_continue_btn()
 
 
 @then("Account should get created")
 def step_impl(context):
     expected_message = "Your Account Has Been Created!"
-    context.account_created_page = AccountCreatedPage(context.driver)
-    current_message = context.account_created_page.get_account_successfully_created_message()
+    current_message = context.account_created_page.get_account_created_message()
 
     assert expected_message == current_message, f"Accout created message does not match: {current_message}"
 
@@ -45,7 +41,6 @@ def step_impl(context):
 
 @when("I enter details into all fields except email field")
 def step_impl(context):
-    context.register_page = RegisterPage(context.driver)
     context.register_page.enter_mandatory_fields("John", "Doe", "", "1234567890", "12345")
 
 
@@ -65,7 +60,6 @@ def step_impl(context):
 
 @when("I don't enter anything into the fields")
 def step_impl(context):
-    context.register_page = RegisterPage(context.driver)
     context.register_page.enter_mandatory_fields("", "", "", "", "")
 
 

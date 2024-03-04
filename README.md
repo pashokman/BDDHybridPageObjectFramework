@@ -106,3 +106,35 @@ def step_impl(context):
 def step_impl(context):
     context.login_page.click_on_login_btn()
 ```
+
+17. Add return statements that should return the next Page Object in current Page Object.
+Before
+```
+def click_search_btn(self):
+    self.driver.find_element(By.CLASS_NAME, self.search_btn_class_name).click()
+```
+After
+```
+def click_search_btn(self):
+    self.driver.find_element(By.CLASS_NAME, self.search_btn_class_name).click()
+    return SearchResultsPage(self.driver)
+```
+
+18. In steps we should set the method into variable, for transfer object through the ```context``` into next steps.
+Before
+```
+@when(u'I click on Search button')
+def step_impl(context):
+    context.home_page.click_search_btn()
+```
+After
+```
+@when(u'I click on Search button')
+def step_impl(context):
+    context.search_results_page = context.home_page.click_search_btn()
+```
+
+### Create Base Page class and implement in it most used methods.
+19. Create BasePage class and inherit it in all other classes.
+20. Implement main page methods in BasePage class - get_element, click_on_element, type_into_element, check_display_status_of_element, retrive_element_text...
+21. Optimize child pages classes to work with BasePage methods.

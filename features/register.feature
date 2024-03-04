@@ -26,7 +26,7 @@ Feature: Register Account Functionality
         And I click on Continue button
         Then Proper warning about duplicate account should be displayed
     
-    @register @pom
+    @register
     Scenario: Register without providing any details
         Given I naviagte to Register page
         When I don't enter anything into the fields

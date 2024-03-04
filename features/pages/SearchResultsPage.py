@@ -1,10 +1,10 @@
-from selenium.webdriver.common.by import By
+from features.pages.BasePage import BasePage
 
 
-class SearchResultsPage:
+class SearchResultsPage(BasePage):
 
     def __init__(self, driver):
-        self.driver = driver
+        super().__init__(driver)
 
 
     valid_product_link_text = 'HP LP3065'
@@ -12,7 +12,8 @@ class SearchResultsPage:
 
 
     def is_displayed_valid_product(self):
-        return self.driver.find_element(By.LINK_TEXT, self.valid_product_link_text).is_displayed()
-    
+        return self.display_status_of_element('valid_product_link_text', self.valid_product_link_text)
+
+
     def get_invalid_product_message(self):
-        return self.driver.find_element(By.XPATH, self.invalid_product_message_xpath).text
+        return self.retrive_element_text('invalid_product_message_xpath', self.invalid_product_message_xpath)
