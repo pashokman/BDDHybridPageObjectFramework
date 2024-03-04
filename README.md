@@ -77,7 +77,7 @@ url = 'https://tutorialsninja.com/demo/'
 ```
 13. Change ```environment.py``` file to work with ```config.ini``` file through the ConfigReader utility.
 
-## Add Page Object Model to the project
+## Add Page Object Model into the project
 14. Create package ```pages``` in ```features``` package.
 15. Create page object files with elements locators and methods to work with them, import page object files into steps and use POM classes.
-16. 
+16. Delete creation of Page Objects in steps, where I can transfer object through the ```context```.

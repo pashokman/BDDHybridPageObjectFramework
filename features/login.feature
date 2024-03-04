@@ -1,6 +1,6 @@
 Feature: Login Functionality
 
-    @login
+    @login 
     Scenario: Login with valid credentials
         Given I navigate to Login page
         When I enter valid email address and valid password into the fields
@@ -21,7 +21,7 @@ Feature: Login Functionality
         And I click on Login button
         Then I shoud get a proper warning message
     
-    @login @completed
+    @login
     Scenario: Login with invalid credentials
         Given I navigate to Login page
         When I enter invalid email address and invalid password into the fields
