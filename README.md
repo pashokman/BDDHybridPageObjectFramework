@@ -81,3 +81,28 @@ url = 'https://tutorialsninja.com/demo/'
 14. Create package ```pages``` in ```features``` package.
 15. Create page object files with elements locators and methods to work with them, import page object files into steps and use POM classes.
 16. Delete creation of Page Objects in steps, where I can transfer object through the ```context```.
+Before
+```
+@when(u'I enter valid email address and valid password into the fields')
+def step_impl(context):
+    context.login_page = LoginPage(context.driver)
+    context.login_page.enter_credentials('test_auto@gmail.com', '12345')
+
+
+@when(u'I click on Login button')
+def step_impl(context):
+    context.login_page = LoginPage(context.driver)
+    context.login_page.click_on_login_btn()
+```
+After
+```
+@when(u'I enter valid email address and valid password into the fields')
+def step_impl(context):
+    context.login_page = LoginPage(context.driver)
+    context.login_page.enter_credentials('test_auto@gmail.com', '12345')
+
+
+@when(u'I click on Login button')
+def step_impl(context):
+    context.login_page.click_on_login_btn()
+```

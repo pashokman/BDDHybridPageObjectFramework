@@ -67,3 +67,22 @@ class RegisterPage:
     
     def get_error_messages(self):
         return self.driver.find_elements(By.XPATH, self.error_messages_xpath)
+    
+    def display_status_of_warnings_and_messages(self, expeceted_warning, expected_fistname_message, \
+                                                expected_lastname_message, expected_email_message, \
+                                                expected_telephone_message, expected_password_message):
+        privacy_status = self.get_warning().__contains__(expeceted_warning)
+        err_messages_list = self.get_error_messages()
+        firstname_status = err_messages_list[0].text.__eq__(expected_fistname_message)
+        lastname_status = err_messages_list[1].text.__eq__(expected_lastname_message)
+        email_status = err_messages_list[2].text.__eq__(expected_email_message)
+        telephone_status = err_messages_list[3].text.__eq__(expected_telephone_message)
+        password_status = err_messages_list[4].text.__eq__(expected_password_message)
+
+        if privacy_status and firstname_status and lastname_status and \
+            email_status and telephone_status and password_status:
+            return True
+        else:                            
+            return False
+
+
