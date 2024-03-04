@@ -276,9 +276,8 @@ behave -f allure_behave.formatter:AllureFormatter -o Reports/ features
 
 
 # Command to run tests:
-    * to run all test - ```behave features```
-    * to run one feature tests - ```behave feature/login.feature```
-    * to run tests with specific tags - ```behave feature --tags=login```
-    * to run tests with allure report - ```behave -f allure_behave.formatter:AllureFormatter -o Reports/ features```
-    to generate the report should run command in ```cmd``` from root project folder - ```allure serve Reports```
-    
+* to run all test - ```behave features```
+* to run one feature tests - ```behave feature/login.feature```
+* to run tests with specific tags - ```behave feature --tags=login```
+* to run tests with allure report - ```behave -f allure_behave.formatter:AllureFormatter -o Reports/ features```
+to generate the report should run command in ```cmd``` from root project folder - ```allure serve Reports```
