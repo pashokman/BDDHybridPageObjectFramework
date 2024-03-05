@@ -75,9 +75,10 @@ class RegisterPage(BasePage):
         return self.get_elements('error_messages_xpath', self.error_messages_xpath)
 
 
-    def display_status_of_warnings_and_messages(self, expeceted_warning, expected_fistname_message, \
-                                                expected_lastname_message, expected_email_message, \
-                                                expected_telephone_message, expected_password_message):
+    def display_status_of_warnings_and_messages(
+            self, expeceted_warning, expected_fistname_message, expected_lastname_message, 
+            expected_email_message, expected_telephone_message, expected_password_message
+        ):
         
         privacy_status = self.get_warning().__contains__(expeceted_warning)
         

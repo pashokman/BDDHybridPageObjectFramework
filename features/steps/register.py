@@ -14,9 +14,10 @@ def step_impl(context):
 @when(u'I enter below details into mandatory fields')
 def step_impl(context):
     for row in context.table:
-        context.register_page.enter_mandatory_fields(row['firstname'], row['lastname'], \
-                                                    generate_email(),
-                                                    row['telephone'], row['password'])
+        context.register_page.enter_mandatory_fields(
+            row['firstname'], row['lastname'], generate_email(),
+            row['telephone'], row['password']
+        )
 
 
 @when(u'I select Privacy Policy option')
@@ -45,8 +46,10 @@ def step_impl(context):
 @when(u'I enter below details into all fields except email field')
 def step_impl(context):
     for row in context.table:
-        context.register_page.enter_mandatory_fields(row['firstname'], row['lastname'], \
-                                                    '', row['telephone'], row['password'])
+        context.register_page.enter_mandatory_fields(
+            row['firstname'], row['lastname'], '',
+            row['telephone'], row['password']
+        )
 
 
 @when(u'I enter existing accounts email "{email}" into email field')
@@ -67,7 +70,7 @@ def step_impl(context):
     context.register_page.enter_mandatory_fields('', '', '', '', '')
 
 
-@then(u'Proper warning (Privacy Policy) and messages for every mandatory fields except Password Confirm should be displayed')
+@then(u'Proper warning (Privacy Policy), messages for every mandatory fields should be displayed, except Password Confirm')
 def step_impl(context):
     expected_warning = 'Warning: You must agree to the Privacy Policy!'
     expected_fistname_message = 'First Name must be between 1 and 32 characters!'
@@ -77,10 +80,6 @@ def step_impl(context):
     expected_password_message = 'Password must be between 4 and 20 characters!'
 
     assert context.register_page.display_status_of_warnings_and_messages(
-        expected_warning,
-        expected_fistname_message,
-        expected_lastname_message,
-        expected_email_message,
-        expected_telephone_message,
-        expected_password_message,
+        expected_warning, expected_fistname_message, expected_lastname_message,
+        expected_email_message, expected_telephone_message, expected_password_message,
     ), 'Warning or message does not match'

@@ -128,7 +128,7 @@ def step_impl(context):
     context.home_page.click_search_btn()
 ```
 After
-```
+``` 
 @when(u'I click on Search button')
 def step_impl(context):
     context.search_results_page = context.home_page.click_search_btn()
@@ -274,8 +274,7 @@ behave -f allure_behave.formatter:AllureFormatter -o Reports/ features
 ```
 37. Post-build Actions - Allure Report - Path - ```Reports```.
 
-
-# Command to run tests:
+# Commands to run tests:
 * to run all test - ```behave features```
 * to run one feature tests - ```behave feature/login.feature```
 * to run tests with specific tags - ```behave feature --tags=login```

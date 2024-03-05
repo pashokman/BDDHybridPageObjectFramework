@@ -37,5 +37,5 @@ Feature: Register Account Functionality
         Given I naviagte to Register page
         When I don't enter anything into the fields
         And I click on Continue button
-        Then Proper warning (Privacy Policy) and messages for every mandatory fields except Password Confirm should be displayed
+        Then Proper warning (Privacy Policy), messages for every mandatory fields should be displayed, except Password Confirm
         
